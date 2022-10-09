@@ -74,77 +74,77 @@ Este es mi desarrollo del curso de React.js practico de Platzi, donde retomamos 
 
 4.  Ahora vamos a configurar las dependencias instaladas
 
-        - Creamos un archivo `.bablerc` en la raíz y dentro agregamos, los
-        `presets` para compilar `JS` moderno y `React`
+    - Creamos un archivo `.bablerc` en la raíz y dentro agregamos, los
+    `presets` para compilar `JS` moderno y `React`
 
-            ```json
-            {
-                "presets": [
-                    "@babel/preset-env",
-                    "@babel/preset-react"
-                ]
-            }
-            ```
+        ```json
+        {
+            "presets": [
+                "@babel/preset-env",
+                "@babel/preset-react"
+            ]
+        }
+        ```
 
-        - Creamos un archivo `webpack.config.js` en la raíz y agregamos en el
+    - Creamos un archivo `webpack.config.js` en la raíz y agregamos en el
 
-            - Constantes y nuestro `module.esxports`
-
-                ```js
-                const HtmlWebpackPlugin = require('html-webpack-plugin');
-                const path = require('path');
-                ```
-
-                ```js
-                module.exports = {}
-                ```
-
-                Dentro de este agregamos nuestro
-
-                     - Punto de entrada `entry`
-                     - Salida `output`
-                     - Extensiones en `resolve` y `extensions`
-                     - Los `loaders` para cada extensión en `module` y `rules`
-                     - La configuarción para `plugins`
+        - Constantes y nuestro `module.esxports`
 
             ```js
-            module.exports = {
-                entry: './src/index.js',
-                output: {
-                    path: path.resolve(__dirname, 'dist'),
-                    filename: 'bundle.js',
-                },
-                resolve: {
-                    extensions: ['.js', '.jsx'],
-                },
-                module: {
-                    rules: [
-                        {
-                            test: /\.(js|jsx)$/,
-                            exclude: /node_modules/,
-                            use: {
-                                loader: 'babel-loader',
-                            },
-                        },
-                        {
-                            test: /\.html$/,
-                            use: [
-                                {
-                                    loader: 'html-loader',
-                                },
-                            ],
-                        },
-                    ],
-                },
-                plugins: [
-                    new HtmlWebpackPlugin({
-                        template: './public/index.html',
-                        filename: './index.html',
-                    }),
-                ],
-
-            }
+            const HtmlWebpackPlugin = require('html-webpack-plugin');
+            const path = require('path');
             ```
+
+            ```js
+            module.exports = {}
+            ```
+
+            Dentro de este agregamos nuestro
+
+                 - Punto de entrada `entry`
+                 - Salida `output`
+                 - Extensiones en `resolve` y `extensions`
+                 - Los `loaders` para cada extensión en `module` y `rules`
+                 - La configuarción para `plugins`
+
+        ```js
+        module.exports = {
+            entry: './src/index.js',
+            output: {
+                path: path.resolve(__dirname, 'dist'),
+                filename: 'bundle.js',
+            },
+            resolve: {
+                extensions: ['.js', '.jsx'],
+            },
+            module: {
+                rules: [
+                    {
+                        test: /\.(js|jsx)$/,
+                        exclude: /node_modules/,
+                        use: {
+                            loader: 'babel-loader',
+                        },
+                    },
+                    {
+                        test: /\.html$/,
+                        use: [
+                            {
+                                loader: 'html-loader',
+                            },
+                        ],
+                    },
+                ],
+            },
+            plugins: [
+                new HtmlWebpackPlugin({
+                    template: './public/index.html',
+                    filename: './index.html',
+                }),
+            ],
+
+        }
+        ```
 
 ### Cambios en tiempo real con Webpack
 
