@@ -2,6 +2,15 @@
 
 Este es mi desarrollo del curso de React.js practico de Platzi, donde retomamos la eshop que ya habíamos unido con JavaScript puro, para este curso tome la desición de trabajar con React 17.
 
+**Indice**
+1. [Configurando el entorno de desarrollo para React](#configurando-el-entorno-de-desarrollo-para-react)
+    1. [Instalción de React y React DOM](#instalción-de-react-y-react-dom)
+    2. [Configuración de Webpack y Babel](#configuración-de-webpack-y-babel)
+    3. [Cambios en tiempo real con Webpack](#cambios-en-tiempo-real-con-webpack)
+    4. [React con CSS y Sass](#react-con-css-y-sass)
+2. [Maquetación con React](#maquetación-con-react)
+    1. [Transformando HTML y CSS en componentes de React](#transformando-html-y-css-en-componentes-de-react)
+
 ## Configurando el entorno de desarrollo para React
 
 ### Instalción de React y React DOM
