@@ -10,6 +10,9 @@ Este es mi desarrollo del curso de React.js practico de Platzi, donde retomamos 
     4. [React con CSS y Sass](#react-con-css-y-sass)
 2. [Maquetación con React](#maquetación-con-react)
     1. [Transformando HTML y CSS en componentes de React](#transformando-html-y-css-en-componentes-de-react)
+    2. [Estilos en los componentes de React](#estilos-en-los-componentes-de-react)
+3. [Páginas, rutas y componentes](#páginas-rutas-y-componentes)
+    1. [React Router DOM](#react-router-dom)
 
 ## Configurando el entorno de desarrollo para React
 
@@ -32,6 +35,7 @@ Este es mi desarrollo del curso de React.js practico de Platzi, donde retomamos 
 
    ```jsx
    import React from "react";
+   import '../styles/global.css';
 
    const App = () => {
      return <div>App</div>;
@@ -246,3 +250,201 @@ Este es mi desarrollo del curso de React.js practico de Platzi, donde retomamos 
 ## Maquetación con React
 
 ### Transformando HTML y CSS en componentes de React
+
+Como mencione en este proyecto también vamos a tomar la maquetación de la
+eshop `YardSale` que trabajamos en el curso de [Curso de Front End 2](https://github.com/dan33pro/cursoDeFrontEnd-2)
+
+1. En el primer archivo de [clase1.html](https://github.com/dan33pro/cursoDeFrontEnd-2-y-JS-Practico/blob/main/clase1.html) vamos a tomar la estructura `html` partiendo desde el `div` con clase `login`, vemos que más que un componente es un contenedor, así que en la carpeta `src` de nuestro repo creamos un directorio llamado `containers` con un archivo `Login.jsx` dentro con la siguiente estructura:
+
+    ```jsx
+    import React from 'react';
+    import '../styles/login.scss';
+
+    const Login = () => {
+      return (
+        
+      );
+    }
+
+    export default Login;
+    ```
+
+    > Comando rafce
+
+2. Dentro del `return` vamos a pegar nuestra estructura `html`
+
+    ```jsx
+    return (
+        <div className ="login">
+            <div className ="form-container">
+                <img src="./logos/logo_yard_sale.svg" alt="logo" className ="logo" />
+                <h1 className ="title">Create a new password</h1>
+                <p className ="subtitle">Enter a new password for your account</p>
+                <form action="/" className ="form">
+                    <label for="password" className ="label">Password</label>
+                    <input type="password" id="password" placeholder="*********" className ="input input-password" />
+                    <label for="new-password" className ="label">Re-eneter password</label>
+                    <input type="password" id="new-password" placeholder="*********" className ="input input-password" />
+                    <input type="submit" value="Confirm" className ="primary-button login-button" />
+                </form>
+            </div>
+        </div>
+    );
+    ```
+
+    > En `React` es necesario cerrar todas las etiquetas y cambiar la palabra clave reservada `class` por `className`
+
+### Estilos en los componentes de React
+
+1. Podemos ver que los estilos de [clase1.html](https://github.com/dan33pro/cursoDeFrontEnd-2-y-JS-Practico/blob/main/clase1.html) usan variables, así que vamos a crear un archivo dentro del directorio `styles` con nombre `_vars.scss` y dentro agregamos nuestras variables:
+
+    ```scss
+    :root {
+        --white: #FFFFFF;
+        --black: #000000;
+        --very-light-pink: #C7C7C7;
+        --text-input-field: #F7F7F7;
+        --hospital-green: #ACD9B2;
+        --sm: 14px;
+        --md: 16px;
+        --lg: 18px;
+    }
+    ```
+
+2. También vamos a crear un archivo con nombre `global.css` dentro del mismo directorio con:
+
+    ```css
+    body {
+        margin: 0;
+        font-family: 'Quicksand', sans-serif;
+    }
+    ```
+
+3. Creamos un archivo `login.scss` con los estilos restantes de [clase1.html](https://github.com/dan33pro/cursoDeFrontEnd-2-y-JS-Practico/blob/main/clase1.html) y podemos usar @use o @import para traer nuestras variables:
+
+    ```scss
+    @use 'vars';
+
+    .login {
+        width: 100%;
+        height: 100vh;
+        display: grid;
+        place-items: center;
+    }
+    .form-container {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        width: 300px;
+    }
+    .logo {
+        width: 150px;
+        margin-bottom: 48px;
+        justify-self: center;
+        display: none;
+    }
+    .title {
+        font-size: var(--lg);
+        margin-bottom: 12px;
+        text-align: center;
+    }
+    .subtitle {
+        color: var(--very-light-pink);
+        font-size: var(--md);
+        font-weight: 300;
+        margin-top: 0;
+        margin-bottom: 32px;
+        text-align: center;
+    }
+    .form {
+        display: flex;
+        flex-direction: column;
+    }
+    .label {
+        font-size: var(--sm);
+        font-weight: bold;
+        margin-bottom: 4px;
+    }
+    .input {
+        background-color: var(--text-input-field);
+        border: none;
+        border-radius: 8px;
+        height: 32px;
+        font-size: var(--md);
+        padding: 6px;
+        margin-bottom: 12px;
+    }
+    .primary-button {
+        background-color: var(--hospital-green);
+        border-radius: 8px;
+        border: none;
+        color: var(--white);
+        width: 100%;
+        cursor: pointer;
+        height: 50px;
+        font-size: var(--md);
+        font-weight: bold;
+    }
+    .login-button {
+        margin-top: 14px;
+        margin-bottom: 30px;
+    }
+    @media (max-width: 640px) {
+        .logo {
+            display: block;
+        }
+    }
+    ```
+
+4. Como estamos trabajndo con `css` y `scss` vamos a cambiar la regla en nuestro `webpack.config.js` y `webpack.config.dev.js`
+
+    ```js
+    test: /\.(css|scss)$/,
+    ```
+
+5. Ahora creamos otro contenedor con nombre `Layout.jsx` que va a recibir un `hijo` como 
+parametro de la arrow function y los va a ir agregando a su estructura:
+
+    ```jsx
+    import React from 'react';
+
+    const Layout = ({ children }) => {
+    return (
+        <div className='Layout'>
+            {children}
+        </div>
+    );
+    }
+
+    export default Layout;
+    ```
+
+6. En nuestro archivo `App.jsx` dentro del `return` agregamos
+
+    ```jsx
+    return (
+        <Layout>
+        <Login />
+        </Layout>
+    );
+    ```
+
+    Y agregamos estos imports
+
+    ```jsx
+    import Layout from '../containers/Layout';
+    import Login from '../containers/Login';
+    import '../styles/global.css';
+    ```
+
+7. Para trabajar con fuentes las vamos a agregar temporalmente en el `head` de nuestro `index.html`
+
+    ```html
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+    ```
+
+## Páginas, rutas y componentes
+
+### React Router DOM
+
