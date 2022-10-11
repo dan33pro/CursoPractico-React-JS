@@ -1,0 +1,34 @@
+@use 'vars';
+
+.ProductDetail {
+    width: 360px;
+    padding-bottom: 24px;
+    position: absolute;
+    right: 0;
+}       
+.ProductDetail-close {
+    background-color: var(--white);
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    width: 14px;
+    height: 14px;
+    z-index: 2;
+    padding: 12px;
+    border-radius: 50%;
+}
+.ProductDetail > img:nth-child(2){
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+    border-radius: 0 0 20px 20px;
+}
+.ProductDetail-close:hover {
+    cursor: pointer;
+}
+
+@media (max-width: 640px) {
+    .ProductDetail {
+        width: 100%;
+    }
+}

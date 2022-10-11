@@ -1,11 +1,17 @@
 @use 'vars';
 
 nav {
+    position: fixed;
+    top: 0;
     display: flex;
+    width: calc(100vw - 48px);
     height: 60px;
     padding: 0 24px;
     justify-content: space-between;
+    background: var(--white);
     border-bottom: 1px solid var(--very-light-pink);
+    box-shadow: 0 2px 4px rgba($color: black, $alpha: 0.5);
+    z-index: 1;
 }
 .navbar-left {
     display: flex;
@@ -14,9 +20,10 @@ nav {
     display: none;
     width: 25px;
 }
-.logo {
+.nav-logo {
     width: 100px;
     margin-right: 12px;
+    cursor: pointer;
 }
 .navbar-left ul,
 .navbar-right ul {
@@ -38,15 +45,16 @@ nav {
 .navbar-left ul li a:hover,
 .navbar-right ul li a:hover{
     border: 1px solid var(--hospital-green);
-    color: var(--hospital-green);
 }
 .navbar-email {
     color: var(--very-light-pink);
     font-size: var(--sm);
     margin-right: 12px;
+    cursor: pointer;
 }
 .navbar-shopping-cart {
     position: relative;
+    cursor: pointer;
 }
 .navbar-shopping-cart div{
     width: 16px;

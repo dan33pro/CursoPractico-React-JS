@@ -1,33 +1,29 @@
 @use 'vars';
 
-body {
-    margin: 0;
-    font-family: 'Quicksand', sans-serif;
-}
-.RecoveryPassword{
+.SendEmail {
     width: 100%;
     height: 100vh;
     display: grid;
     place-items: center;
 }
-.RecoveryPassword-container {
+.SendEmail-container {
     display: grid;
     grid-template-rows: auto 1fr auto;
     width: 300px;
     justify-items: center;
 }
-.RecoveryPassword .logo {
+.SendEmail .logo {
     width: 150px;
     margin-bottom: 48px;
     justify-self: center;
     display: none;
 }
-.RecoveryPassword .title {
+.SendEmail .title {
     font-size: var(--lg);
     margin-bottom: 12px;
     text-align: center;
 }
-.RecoveryPassword .subtitle {
+.SendEmail .subtitle {
     color: var(--very-light-pink);
     font-size: var(--md);
     font-weight: 300;
@@ -35,7 +31,7 @@ body {
     margin-bottom: 32px;
     text-align: center;
 }
-.RecoveryPassword .email-image {
+.SendEmail .email-image {
     width: 132px;
     height: 132px;
     border-radius: 50%;
@@ -45,20 +41,20 @@ body {
     align-items: center;
     margin-bottom: 24px;
 }
-.RecoveryPassword .email-image img {
+.SendEmail .email-image img {
     width: 80px;
 }
-.RecoveryPassword .resend {
+.SendEmail .resend {
     font-size: var(--sm);
 }
-.RecoveryPassword .resend span {
+.SendEmail .resend span {
     color: var(--very-light-pink);
 }
-.RecoveryPassword .resend a {
+.SendEmail .resend a {
     color: var(--hospital-green);
     text-decoration: none;
 }
-.RecoveryPassword .primary-button {
+.SendEmail .primary-button {
     background-color: var(--hospital-green);
     border-radius: 8px;
     border: none;
@@ -69,12 +65,12 @@ body {
     font-size: var(--md);
     font-weight: bold;
 }
-.RecoveryPassword-button {
+.SendEmail-button {
     margin-top: 14px;
     margin-bottom: 30px;
 }
 @media (max-width: 640px) {
-    .RecoveryPassword .logo {
+    .SendEmail .logo {
         display: block;
     }
 }

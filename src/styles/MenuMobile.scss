@@ -1,0 +1,44 @@
+@use 'vars';
+
+.MenuMobile {
+    position: absolute;
+    top: 61px;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: space-between;
+    height: calc(100vh - 61px);
+    padding: 0 24px 0 24px;
+    background: var(--white);
+    box-shadow: 2px 0 4px rgba($color: black, $alpha: 0.5);
+}
+.MenuMobile ul a {
+    text-decoration: none;
+    color: var(--black);
+}
+.MenuMobile ul:first-child a {
+    font-weight: bold;
+}
+.MenuMobile ul{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    margin: 24px 0 0 ;
+}
+.MenuMobile ul li {
+    margin-bottom: 24px;
+}
+.MenuMobile .email {
+    font-size: var(--sm);
+    font-weight: 300px;
+}
+.MenuMobile .sign-out {
+    color: var(--hospital-green) !important;
+    font-size: var(--sm);
+}
+.MenuMobile div {
+    display: grid;
+    justify-content: space-between;
+}
+.MenuMobile div ul:last-child li{
+    margin-bottom: 8px;
+}

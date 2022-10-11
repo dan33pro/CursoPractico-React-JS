@@ -15,6 +15,8 @@ Este es mi desarrollo del curso de React.js practico de Platzi, donde retomamos 
     1. [React Router DOM](#react-router-dom)
     2. [Navegación entre rutas](#navegación-entre-rutas)
     3. [Header en todas las rutas](#header-en-todas-las-rutas)
+    4. [Tipos de componentes en React: stateful vs. stateless](#tipos-de-componentes-en-react-stateful-vs-stateless)
+    5. [Imágenes y alias en Webpack](#imágenes-y-alias-en-webpack)
 
 ## Configurando el entorno de desarrollo para React
 
@@ -749,3 +751,106 @@ con el nombre `Header.jsx` y creamos en `styles` un archivo `Header.scss`
     );
     ...
     ```
+Este mismo proceso lo vamos a repetir para todos los `components`, `containers` y `pages`, donde iran teniendo una relación padre hijo o ninguna, agregamos sus correspondientes estilos para cada elemento. 
+
+### Tipos de componentes en React: stateful vs. stateless
+
+1. `Stateful`: Son componentes que nos permiten trabajar con un `estado`:
+
+    ```js
+    import React, { useState } from 'react';
+
+    const Button = () => {
+        const [name, setName] = useState('Hola mundo');
+        return (
+            <div>
+                <h1>{name}</h1>
+            </div>
+        );
+    }
+    ```
+2. `Stateless`: son aquellos que solo hacen una representación visual o props:
+
+    ```js
+    import React from 'react';
+
+    const ButtonUno = () => (
+            <div>
+                <h1>{name}</h1>
+            </div>
+    );
+
+    const ButtonDos = () => <ButtonRed />;
+    ```
+
+3. Antes de `stateful` y `hooks` se trabajaba de la siguiente 
+forma, pero ya no sule usarse:
+
+    ```js
+    import React, { Component } from 'react';
+
+    class App extends Component {
+        constructor() {
+            super();
+            ...
+        }  
+        render() {
+            return (
+                <div>Holaa!!</div>
+            );
+        }
+    }
+    ```
+
+4. `Hooks`: Los componentes de orden superior, reciben un componente y
+extieneden su funcionalidad, luego retornan un componente compuesto:
+
+    ```js
+    import React from 'react';
+
+    function ComponentWrapper(WrapperComponent) {
+        class Wrapper extends Component {
+            render() {
+                return <WrapperComponent {...this.props} />;
+            }
+        }
+        return Wrapper;
+    }
+    ```
+
+    Este también es un componente antiguo y poco usado.
+
+### Imágenes y alias en Webpack
+
+1. Vamos a crear una carpeta `assets` dentro de `src` y aquí
+pegamos la copia de nuestras carpetas `iconos` y `logos` del curso
+de [FrontEnd2](https://github.com/dan33pro/cursoDeFrontEnd-2-y-JS-Practico).
+
+2. En los archivos de configuarción de `webpack` vamos a añadir una
+nueva regla en `rules`
+
+    ```js
+    {
+        test: /\.(png|svg|jpg|gif)$/,
+        type: 'asset',
+    },
+    ```
+
+    Esta nos sirve para que `webpack` pueda optimizar los archivos
+    con estas extenciones.
+
+3. En estos archivos de configuración vamos ha añadir los alias en `resolve
+
+    ```js
+    alias: {
+        '@components': path.resolve(__dirname, 'src/components/'),
+        '@containers': path.resolve(__dirname, 'src/containers/'),
+        '@pages': path.resolve(__dirname, 'src/pages/'),
+        '@routes': path.resolve(__dirname, 'src/routes/'),
+        '@styles': path.resolve(__dirname, 'src/styles/'),
+        '@icons': path.resolve(__dirname, 'src/assets/icons/'),
+        '@logos': path.resolve(__dirname, 'src/assets/logos/'),
+    },
+    ```
+
+4. Ya con esto podemos agregarlos en todos los archivos que necesitemos con un `import`
