@@ -1,0 +1,42 @@
+@use 'vars';
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.titleNotFound {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 40;
+    padding: 10px 40px;
+}
+
+.titleNotFound:first-child {
+    font-size: 50px;
+    border-right: 4px solid var(--hospital-green);
+}
+
+.primary-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30vw;
+    cursor: pointer;
+    height: 50px;
+    text-decoration: none;
+    background-color: var(--hospital-green);
+    border-radius: 8px;
+    border: none;
+    color: var(--white);
+    font-size: var(--md);
+    font-weight: bold;
+}

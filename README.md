@@ -13,6 +13,8 @@ Este es mi desarrollo del curso de React.js practico de Platzi, donde retomamos 
     2. [Estilos en los componentes de React](#estilos-en-los-componentes-de-react)
 3. [Páginas, rutas y componentes](#páginas-rutas-y-componentes)
     1. [React Router DOM](#react-router-dom)
+    2. [Navegación entre rutas](#navegación-entre-rutas)
+    3. [Header en todas las rutas](#header-en-todas-las-rutas)
 
 ## Configurando el entorno de desarrollo para React
 
@@ -448,3 +450,302 @@ parametro de la arrow function y los va a ir agregando a su estructura:
 
 ### React Router DOM
 
+Nos permite navegar entre distintas secciones de nuestro proyecto, recordemos que React
+es `single-page` por lo que no cambia la url avanzando entre paginas, esta es la función
+de `React Router Dom` nos permite avanzar entre secciones y cambiar el path, para que se
+guarde adecuadamente el flujo de navegación,  instalamos la dependencia con 
+
+    ```npm
+    npm install react-router-dom
+    ```
+
+1. Reubicamos el archivo `App.jsx` porque no es ni un `componente` ni un `container`
+y lo agregamos a una carpeta `routes`, ademas vamos a importar los siguientes recursos
+de `react-router-dom` dentro de este archivo
+
+    ```jsx
+    import { BrowserRouter, Routes, Route } from 'react-router-dom';
+    import Home from '../pages/Home';
+    import NotFound from '../pages/NotFound';
+    ```
+2. Necesitamos cambiar la estructura de nuestro `return` en `App.jsx`
+
+    ```jsx
+    return (
+        <BrowserRouter>
+        <Layout>
+            <Routes>
+            <Route exact path='/' element = {<Home />} />
+            <Route exact path='/login' element = {<Login />} />
+            <Route exact path='/recovery-password' element = {<RecoveryPassword />} />
+            <Route path='*' element = {<NotFound />} />
+            </Routes>
+        </Layout>
+        </BrowserRouter>
+    );
+    ```
+
+    1. `BrowsweRouter` se encarga de encontrar la ruta
+    2. `Switch` es la logica de seleción de rutas
+    3. `Route` lo usamos para definir cada ruta posible del `Switch` y un `default`
+
+3. Como se puede ver, estamos agregando un container `RecoveryPassword` este lo construimos
+igual que el container anterior `Login`, esta vez con el `html` y `css` de la [clase2](https://github.com/dan33pro/cursoDeFrontEnd-2-y-JS-Practico/blob/main/clase2.html) cuardamos el container en un `RecoveryPassword.jsx` y dentro de el importamos los estilos, que guardamos en un `RecoveryPassword.scss`.
+
+4. En el archivo `index.js` cambiamos el path del import
+
+    ```js
+    import App from './routes/App';
+    ```
+
+> los components `Home` y `NotFound` los contruiremos más adelante
+
+### Navegación entre rutas
+
+1. En los archivos e configuración de `webpack` en el `output` agregamos
+
+    ```js
+    publicPath: '/',
+    ```
+
+    Para el de `webpack.config.dev.js` agregamos ademas en la propiedad `devServer`
+
+    ```js
+    historyApiFallback: true,
+    ```
+
+2. En nuestro `package.json` modificamos el script de `start` por
+
+    ```json
+    "start": "webpack serve --open --config webpack.config.dev.js",
+    ```
+
+3. En una carpeta `pages` dentro de `src` creamos nuestros archivos `Home.jsx` y `NotFound.jsx`
+
+    1. El primero con
+
+        ```jsx
+        import React from 'react';
+
+        const Home = () => {
+        return (
+            <div>Home</div>
+        );
+        }
+
+        export default Home; 
+        ```
+    
+    2. El segundo con
+
+        ```jsx
+        import React from 'react';
+        import '../styles/NotFound.scss';
+
+        const NotFound = () => {
+        return (
+            <div className='container'>
+                <div className ="card">
+                    <h1 className='titleNotFound'>404</h1>
+                    <h2 className='titleNotFound'>Not Found</h2>
+                </div>
+                <a className='primary-button' href = "/">Home</a>
+            </div>
+        );
+        }
+
+        export default NotFound;
+        ```
+    
+    3. Añadimos en la carpeta `styles` un archivo `NotFound.scss` con
+
+        ```scss
+        @use 'vars';
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .titleNotFound {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 40;
+            padding: 10px 40px;
+        }
+
+        .titleNotFound:first-child {
+            font-size: 50px;
+            border-right: 4px solid var(--hospital-green);
+        }
+
+        .primary-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30vw;
+            cursor: pointer;
+            height: 50px;
+            text-decoration: none;
+            background-color: var(--hospital-green);
+            border-radius: 8px;
+            border: none;
+            color: var(--white);
+            font-size: var(--md);
+            font-weight: bold;
+        }
+        ```
+4. Ya podemos correr `npm run start` y ver los distintos resultados cambiando la `url`
+
+### Header en todas las rutas
+
+Vamos ha agregar nuestro `header` como es un componente lo agragamos en `components` 
+con el nombre `Header.jsx` y creamos en `styles` un archivo `Header.scss`
+
+1. El archivo `.jsx` tendra el `html` de la [clase11](https://github.com/dan33pro/cursoDeFrontEnd-2-y-JS-Practico/blob/main/clase11.html)
+
+    ```jsx
+    import React from 'react';
+    import '../styles/Header.scss';
+
+    const Header = () => {
+    return (
+        <nav>
+            <img src="./icons/icon_menu.svg" alt="menu" className ="menu" />
+            <div className ="navbar-left">
+                <img src="./logos/logo_yard_sale.svg" alt="logo" className ="logo" />
+                <ul>
+                    <li>
+                        <a href="/">All</a>
+                    </li>
+                    <li>
+                        <a href="/">Clothes</a>
+                    </li>
+                    <li>
+                        <a href="/">Electronics</a>
+                    </li>
+                    <li>
+                        <a href="/">Furnitures</a>
+                    </li>
+                    <li>
+                        <a href="/">Toys</a>
+                    </li>
+                    <li>
+                        <a href="/">Others</a>
+                    </li>
+                </ul>
+            </div>
+            <div className ="navbar-right">
+                <ul>
+                    <li className ="navbar-email">name@example.com</li>
+                    <li className ="navbar-shopping-cart">
+                        <img src="./icons/icon_shopping_cart.svg" alt="shopping_cart" />
+                        <div>2</div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    );
+    }
+
+    export default Header;
+    ```
+
+2. El archivo `.scss` los estilos también de esa clase
+
+    ```scss
+    @use 'vars';
+
+    nav {
+        display: flex;
+        height: 60px;
+        padding: 0 24px;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--very-light-pink);
+    }
+    .navbar-left {
+        display: flex;
+    }
+    .menu{
+        display: none;
+        width: 25px;
+    }
+    .logo {
+        width: 100px;
+        margin-right: 12px;
+    }
+    .navbar-left ul,
+    .navbar-right ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        height: 60px;
+    }
+    .navbar-left ul li a,
+    .navbar-right ul li a{
+        text-decoration: none;
+        color: var(--very-light-pink);
+        border: 1px solid var(--white);
+        padding: 8px;
+        border-radius: 8px;
+    }
+    .navbar-left ul li a:hover,
+    .navbar-right ul li a:hover{
+        border: 1px solid var(--hospital-green);
+        color: var(--hospital-green);
+    }
+    .navbar-email {
+        color: var(--very-light-pink);
+        font-size: var(--sm);
+        margin-right: 12px;
+    }
+    .navbar-shopping-cart {
+        position: relative;
+    }
+    .navbar-shopping-cart div{
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        top: -6px;
+        right: -3px;
+        background-color: var(--hospital-green);
+        border-radius: 50%;
+        font-size: var(--sm);
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    @media (max-width: 760px) {
+        .menu {
+            display: block;
+        }
+        .navbar-left ul{
+            display: none;
+        }
+        .navbar-email {
+            display: none;
+        }
+    }
+    ```
+
+3. Agreagmos el componente al `Page` de `Home`
+
+    ```jsx
+    import Header from '../components/Header';
+    ...
+    return (
+        <Header />
+    );
+    ...
+    ```
