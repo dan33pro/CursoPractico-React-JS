@@ -2,16 +2,19 @@
 
 .MyOrder {
     width: 360px;
-    height: 100vh;
+    height: calc(100vh - 60px );
     padding: 0 24px 24px 24px;
     position: absolute;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    right: 0;
+    background: var(--white);
+    box-shadow: -2px 2px 4px rgba($color: #000000, $alpha: 0.5);
+    top: 60px;
+    right: 16px;
 }       
-.primary-button {
+.MyOrder .primary-button {
     background-color: var(--hospital-green);
     border-radius: 8px;
     border: none;
@@ -28,7 +31,6 @@
 }
 .title-container {
     display: flex;
-    margin-bottom: 14px;
 }
 .title-container img {
     transform: rotate(180deg);

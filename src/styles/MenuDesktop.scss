@@ -1,7 +1,7 @@
 @use 'vars';
 
 .MenuDesktop {
-    position: absolute;
+    position: fixed;
     right: 40px;
     top: 60px;
     width: 100px;
@@ -11,30 +11,48 @@
     border-radius: 6px;
     background: var(--white);
     padding: 20px 20px 0 20px;
+    will-change: transform;
+    transition: transform 500ms;
 }
+
+.MenuDesktop-animation {
+    transform: translateY(50px);
+}
+
 .MenuDesktop ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
+
 .MenuDesktop ul li {
     text-align: end;
 }
+
 .MenuDesktop ul li:nth-child(1),
 .MenuDesktop ul li:nth-child(2) {
     font-weight: bold;
 }
+
 .MenuDesktop ul li:last-child {
     padding-top: 20px;
     border-top: 1px solid var(--very-light-pink);
 }
+
 .MenuDesktop ul li a {
     color: var(--black);
     text-decoration: none;
     margin-bottom: 20px;
     display: inline-block;
 }
+
 .MenuDesktop ul li:last-child a {
     color: var(--hospital-green);
     font-size: var(--sm);
+}
+
+@media (max-width: 761px) {
+    .MenuDesktop {
+        display: none;
+    }
 }

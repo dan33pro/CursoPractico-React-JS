@@ -17,6 +17,11 @@ Este es mi desarrollo del curso de React.js practico de Platzi, donde retomamos 
     3. [Header en todas las rutas](#header-en-todas-las-rutas)
     4. [Tipos de componentes en React: stateful vs. stateless](#tipos-de-componentes-en-react-stateful-vs-stateless)
     5. [Imágenes y alias en Webpack](#imágenes-y-alias-en-webpack)
+4. [Lógica con React Hooks](#lógica-con-react-hooks)
+    1. [React.useState and Toggle menú](#react-usestate-and-toggle-menú)
+    2. [useEffect y consumo de APIs](#useeffect-y-consumo-de-apis)
+    3. [Custom Hooks para la tienda](#custom-hooks-para-la-tienda)
+    4. [useRef y formularios](#useref-y-formularios)
 
 ## Configurando el entorno de desarrollo para React
 
@@ -854,3 +859,242 @@ nueva regla en `rules`
     ```
 
 4. Ya con esto podemos agregarlos en todos los archivos que necesitemos con un `import`
+
+## Lógica con React Hooks
+
+### React useState and Toggle menú
+
+Vamos a usar `Hooks` para agregar o quitar los menus de mobilie 
+o dexktop, para esto en nuestro componente `header` agreagamos
+estos `import`
+
+    ```jsx
+    import MenuDesktop from '@components/MenuDesktop';
+    import MenuMobilie from '@components/MenuMobile';
+    ```
+
+1. Agregamos los dos `Hooks` dentro de nuestros `componentes`
+
+    ```jsx
+    const [toggleD, setToggleD] = useState(false);
+    const handleToggleD = () => {
+        setToggleD(!toggleD);
+        setToggleM(false);
+    };
+
+    const [toggleM, setToggleM] = useState(false);
+    const handleToggleM = () => {
+        setToggleM(!toggleM);
+        setToggleD(false);
+    };
+    ```
+ 2. Añadimos el atrobito `onClick` segun necesitemos
+
+    ```jsx
+    onClick={handleToggleM}
+    onClick={handleToggleD}
+    ```
+
+### useEffect y consumo de APIs
+
+UseEffect es una manera de que nuestro componente de React, puede recibir nueva info, re-renderizar o cambiar su contenido, cuando una función se haya completado. Es decir, podemos controlar el momento en el cual nuestro componente tome un cierto comportamiento.
+
+1. Instalamos las dependencias
+
+    ```npm
+    npm install axios
+    npm install @babel/plugin-transform-runtime
+    ```
+
+2. Agregamos la configuración para nuestro plugin de `babel` en el archivo `.babelrc`
+
+    ```json
+    {
+        "presets": [
+            "@babel/preset-env",
+            "@babel/preset-react"
+        ],
+        "plugins": [
+            "@babel/plugin-transform-runtime"
+        ]
+    }
+    ```
+
+3. En nuestro contenedor `ProductList.jsx` vamos a agregar temporalmente
+
+    ```jsx
+    const API = 'https://api.escuelajs.co/api/v1/products';
+    ```
+
+    También importamos
+
+    ```jsx
+    import React, { useEffect, useState } from 'react';
+    import axios from 'axios';
+    ```
+
+    Ahora agregamos nuestro `Hook` y usamos `useEffect`
+
+    ```jsx
+    const [products, setProducts] = useState([]);
+    useEffect(async () => {
+        const response = await axios(API);
+        setProducts(response.data);
+    }, []);
+    ```
+
+    Con esto traemos la lista de productos haciendo la petición a nuestra `API`
+    a través de `axios` y con asinacronismo esperamos la respuesta antes de
+    agregar los productos a nuestro array de `products` del `Hook`.
+
+### Custom Hooks para la tienda
+
+1. Ahora vamos a crear un folder `hooks` dentro de `src` agreamos el alias en los
+archivos de configuración de `webpack` y ahora vamos a pasar el `Hook` que 
+creamos temporalmente dentro de `ProductList.jsx` y lo agregamos a un
+archivo dentro de `src/hooks/useGetProducts.js`
+
+    ```js
+    import { useEffect, useState } from "react";
+    import axios from "axios";
+
+    const useGetProducts = (API) => {
+        const [products, setProducts] = useState([]);
+
+        useEffect(async () => {
+            const response = await axios(API);
+            setProducts(response.data);
+        }, []);
+
+        return products;
+    };
+
+    export default useGetProducts;
+    ```
+
+2. Ahora podemos usar nuestro `custom hook` siempre que necesitemos, por ultimo
+en el archivo `ProductList.jsx` ya podemos quitar el import de `axios`, `useEffect` y
+`useState`, en su lugar importamos
+
+    ```jsx
+    import useGetProducts from '@hooks/useGetProducts';
+    ```
+
+Y nuestro componente quedaría así
+
+    ```jsx
+    import React from 'react';
+    import ProductItem from '@components/ProductItem';
+    import useGetProducts from '@hooks/useGetProducts';
+    import '@styles/ProductList.scss';
+
+    const API = 'https://api.escuelajs.co/api/v1/products';
+
+    const ProductList = () => {
+    const products = useGetProducts(API);
+
+    return (
+        <section className="ProductList">
+        <div className="ProductList-container">
+            {products.map(product => (
+            <ProductItem product = {product} key = {product.id}/>
+            ))}
+        </div>
+        </section>
+    );
+    }
+
+    export default ProductList;
+    ```
+
+3. Como vemos hacemos uso de nuestro `custom hook` y nuestro `ProductItem`
+ahora recibe dos parametros un `product` y un `key` para que podemos
+identificar cada producto con un `id` en nuestro `virtualDom`.
+
+4. En nuestro componente `ProductItem.jsx` decimos que va a 
+recibir el parametro `product`
+
+    ```jsx
+    const ProductItem = ({product}) => {
+    ...
+    }
+    ```
+
+5. Y remplazamos la información que necesitemos en la estructura de
+nuestro componenete
+
+    ```jsx
+    return (
+        <div className ="ProductItem">
+            <img src={product.images[0]} alt={product.title} />
+            <div className ="ProductItem-info">
+                <div>
+                    <p>${product.price}</p>
+                    <p>{product.title}</p>
+                </div>
+                <figure onClick={handleClick}>
+                    <img src={btAddCart} alt="" />
+                </figure>
+            </div>
+        </div>
+    );
+    ```
+
+### useRef y formularios
+
+Cuando queremos enviar información desde nuestros dormularios hasta nuestro
+Back End podemos usar `useState` sin embargo no es la mejor froma de hacerlo
+en su lugar podemos usar `useRef`, para esto en nuestro `Login.jsx` importamos
+
+    ```jsx
+    import React, { useRef } from 'react';
+    ```
+
+1. Vamos a implementar nuestro `hook` de la siguinete manera
+
+    ```jsx
+    const form = useRef(null);
+
+    const handleSubmit = () => {
+        const formData = new FormData(form.current);
+        const data = {
+        username: formData.get('email'),
+        password: formData.get('password'),
+        };
+        console.log(data);
+    }
+    ```
+
+2. Donde nuestro formulario tendría la siguinete estructura
+
+    ```jsx
+    <form action="/" className ="form" ref={form}>
+        <label htmlFor="email" className ="label">Email address</label>
+        <input type="text" name="email" placeholder="name@example.com" className ="input input-email" />
+        <label htmlFor="plassword" className ="label">Password</label>
+        <input type="password" name="password" placeholder="*********" className ="input input-password" />
+        <button onClick={handleSubmit} className ="primary-button login-button">
+        Log in
+        </ button>
+        <a href="/">Forgot my password</a>
+    </form>
+    ```
+
+Nuetro `form` una referencia a nuestra constante `form`, y cada `input`
+una propiedad `name` que es la que usamos para obtener su valor con
+`formData.getData('name')`
+
+3. Para cambiar el comportamiento por default de nuestro `form` tenemos que
+hacer un `preventDefault`.
+
+    ```jsx
+    const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(form.current);
+    const data = {
+        username: formData.get('email'),
+        password: formData.get('password'),
+    };
+    console.log(data);
+    }
+    ```

@@ -1,8 +1,9 @@
 @use 'vars';
 
 .MenuMobile {
-    position: absolute;
+    position: fixed;
     top: 61px;
+    left: 0;
     display: grid;
     grid-template-columns: 1fr;
     justify-content: space-between;
@@ -41,4 +42,10 @@
 }
 .MenuMobile div ul:last-child li{
     margin-bottom: 8px;
+}
+
+@media (min-width: 761px) {
+    .MenuMobile {
+        display: none;
+    }
 }
