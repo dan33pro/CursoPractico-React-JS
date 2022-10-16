@@ -1,34 +1,42 @@
-import React from 'react';
-import ShoppingCartItem from '@components/ShoppingCartItem';
+import React, { useContext } from 'react';
+import AppContext from '@context/AppContext';
 import '@styles/MyOrder.scss';
 import arrow from '@icons/flechita.svg';
+import OrderItem from '@components/OrderItem';
 
 const MyOrder = () => {
-  return (
-    <aside className ="MyOrder">
-        <div className ="title-container">
-            <img src={arrow} alt="arrow" />
-            <p className ="title">
-                Shopping cart
-            </p>
-        </div>
-        <div className ="MyOrder-content">
-            <ShoppingCartItem />
-            <ShoppingCartItem />
-            <ShoppingCartItem />
-            <ShoppingCartItem />
-            <div className ="order">
+    const { state } = useContext(AppContext);
+
+    const sumTotal = () => {
+        const reducer = (accumulator, currentValue) => accumulator + currentValue.price;
+        const sum = state.cart.reduce(reducer, 0);
+        return sum;
+    }
+
+    return (
+        <aside className="MyOrder">
+            <div className="title-container">
+                <img src={arrow} alt="arrow" />
+                <p className="title">
+                    My order
+                </p>
+            </div>
+            <div className="MyOrder-content">
+                {state.cart.map(product => (
+                    <OrderItem product={product} key={`orderItem-${product.id}`} />
+                ))}
+            </div>
+            <div className="order">
                 <p>
                     <span>Total</span>
                 </p>
-                <p>$560.00</p>
+                <p>${sumTotal()}</p>
             </div>
-        </div>
-        <button className ="primary-button">
-            Checkout
-        </button>
-    </aside>
-  );
+            <button className="primary-button">
+                Checkout
+            </button>
+        </aside>
+    );
 }
 
 export default MyOrder;

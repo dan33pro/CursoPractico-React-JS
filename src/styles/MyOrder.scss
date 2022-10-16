@@ -2,7 +2,7 @@
 
 .MyOrder {
     width: 360px;
-    height: calc(100vh - 60px );
+    height: calc(100vh - 60px);
     padding: 0 24px 24px 24px;
     position: absolute;
     box-sizing: border-box;
@@ -13,7 +13,8 @@
     box-shadow: -2px 2px 4px rgba($color: #000000, $alpha: 0.5);
     top: 60px;
     right: 16px;
-}       
+}
+
 .MyOrder .primary-button {
     background-color: var(--hospital-green);
     border-radius: 8px;
@@ -25,40 +26,83 @@
     font-size: var(--md);
     font-weight: bold;
 }
+
 .MyOrder-content {
+    padding-right: 10px;
+    max-height: 390px;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 }
+
+/* Estilos scroll bar none */
+.MyOrder-content::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+/* Estilos barra scroll vertical y horizontal*/
+.MyOrder-content::-webkit-scrollbar:vertical {
+    width: 10px;
+}
+
+.MyOrder-content::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+/* Botones y carril */
+.MyOrder-content::-webkit-scrollbar-button:increment,
+.MyOrder-content::-webkit-scrollbar-button {
+    display: none;
+}
+
+/* Almohadilla de la barra de scroll*/
+.MyOrder-content::-webkit-scrollbar-thumb {
+    background: var(--hospital-green);
+    border: 2px solid var(--white);
+    border-radius: 20px;
+}
+
+.MyOrder-content::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+
 .title-container {
     display: flex;
 }
+
 .title-container img {
     transform: rotate(180deg);
     margin-right: 14px;
 }
+
 .title {
     font-size: var(--lg);
     font-weight: bold;
 }
+
 .order {
     display: grid;
     grid-template-columns: auto 1fr;
     gap: 16px;
     align-items: center;
     background-color: var(--text-input-field);
-    margin-bottom: 24px;
+    margin: 20px 0 24px;
     border-radius: 8px;
     padding: 0 24px;
 }
+
 .order p:first-child {
     display: flex;
     flex-direction: column;
 }
-.order p:last-child{
+
+.order p:last-child {
     text-align: end;
     font-weight: bold;
 }
-.order p span{
+
+.order p span {
     font-weight: bold;
     font-size: var(--md);
 }

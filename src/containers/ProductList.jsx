@@ -11,9 +11,11 @@ const ProductList = () => {
   return (
     <section className="ProductList">
       <div className="ProductList-container">
-        {products.map(product => (
-          <ProductItem product = {product} key = {product.id}/>
-        ))}
+        {products.map(product => {
+          if (product.images[0]) {
+            return <ProductItem product = {product} key = {`productItem-${product.id}`}/>;
+          }
+        })}
       </div>
     </section>
   );

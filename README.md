@@ -22,6 +22,10 @@ Este es mi desarrollo del curso de React.js practico de Platzi, donde retomamos 
     2. [useEffect y consumo de APIs](#useeffect-y-consumo-de-apis)
     3. [Custom Hooks para la tienda](#custom-hooks-para-la-tienda)
     4. [useRef y formularios](#useref-y-formularios)
+    5. [React Context](#react-context)
+    6. [Completando el carrito de compras](#completando-el-carrito-de-compras)
+    7. [Orden de compra](#orden-de-compra)
+    8. [Calculando el precio total](#calculando-el-precio-total)
 
 ## Configurando el entorno de desarrollo para React
 
@@ -1097,4 +1101,179 @@ hacer un `preventDefault`.
     };
     console.log(data);
     }
+    ```
+
+### React Context
+
+Es una solución para manejar un contexto global en nuestra aplicación, 
+con esto por ejemplo no tendriamos que pasar los `props` por todos
+los padres de un componenete hasta llegar al hijo que necesitemos.
+
+1. Creamos una carpeta `context` en `src` con un archivo `AppContext`.
+
+    ```js
+    import React from 'react';
+
+    const AppContext = React.createContext({});
+
+    export default AppContext;
+    ```
+
+2. Agregamos el alias de `context` en los archivos de configuración de `webpack`.
+
+3. Creamos un nuevo `custom hook` para el estado inicial de muestro `context`, con
+el nombre `useInitialState.js`
+
+    ```js
+    import { useState } from "react";
+
+    const initialState = {
+        cart: [],
+    };
+
+    const useInitialState = () => {
+        const [state, setState] = useState(initialState);
+
+        const addToCart = (payload) => {
+            setState({
+                ...state,
+                cart: [
+                    ...state.cart,
+                    payload,
+                ]
+            })
+        }
+
+        return {
+            state,
+            addToCart,
+        };
+    };
+
+    export default useInitialState;
+    ```
+
+4. Con esto en nuestro archivo `App.jsx` imortamos
+
+    ```jsx
+    import AppContext from '@context/AppContext';
+    import useInitialState from '@hooks/useInitialState';
+    ```
+    Cremos una constante con el estado inical y en el return agregamos el contexto
+    con su estado inicial.
+
+    ```jsx
+    const App = () => {
+        const initialState = useInitialState();
+        
+        return (
+            <AppContext.Provider value={initialState}>
+                <BrowserRouter>
+                    ...
+                </BrowserRouter>
+            </AppContext.Provider>
+        );
+    }
+    ```
+
+### Completando el carrito de compras
+
+1. Para que en nuestro carrito incremente el numero cada vez que
+damos click en el boton para agregar un producto, vamos a importar
+en el `Header.jsx`
+
+    ```jsx
+    import React, { useState, useContext } from 'react';
+    import AppContext from '@context/AppContext';
+    ```
+
+2. Agregamos la variable del estado
+
+    ```jsx
+    const Header = () => {
+        const { state } = useContext(AppContext);
+        ...
+    }
+    ```
+
+### Orden de compra
+
+Ahora en nuestra orden de compra tenemos que agregar cada producto 
+que vamos agregando, para esto usamos tambien el contexto
+
+1. Imprtamos lo necesario
+
+    ```jsx
+    import React, { useContext } from 'react';
+    import AppContext from '@context/AppContext';
+    ```
+
+2. Agregamos la constante para el estado
+
+    ```jsx
+    const MyOrder = () => {
+        const { state } = useContext(AppContext);
+        ...
+    }
+    ```
+
+3. Donde necesitamos agregar los `OrderItem`, agregamos un `.map()` por
+cada elemento del `cart` en el `state` de la app.
+
+    ```jsx
+    ...
+    <div className="MyOrder-content">
+        {state.cart.map(product => (
+            <OrderItem product={product} key={`orderItem-${product.id}`} />
+        ))}
+        <div className="order">
+            ...
+        </div>
+    </div>
+    ```
+
+4. Ya añadiendo nuestros componentes vamos a ajustarlos, en el `OrderItem.jsx`
+ahora recibimos un `product` con el que vamos a remplazar la información
+necesaria para cada producto.
+
+    ```jsx
+    const OrderItem = ({ product }) => {
+    return (
+        <div className ="OrderItem">
+            <figure>
+                <img src={product.images[0]} alt={product.title} />
+            </figure>
+            <p>{product.title}</p>
+            <p>${product.price}</p>
+            <img src={iconClose} alt="close" className ="OrderItem-close" />
+        </div>
+    );
+    }
+    ```
+
+### Calculando el precio total
+
+En el archivo `MyOrder.jsx` vamos a agregar una función para calcular el
+total de los elementos en el carrito de compras, función que de ser necesario
+podriamos convertir en un `custom hook`.
+
+    ```jsx
+    const sumTotal = () => {
+        const reducer = (accumulator, currentValue) => accumulator + currentValue.price;
+        const sum = state.cart.reduce(reducer, 0);
+        return sum;
+    }
+    ```
+
+Remplazamos en la estructura `html` del archivo por el llamado
+a esta función
+
+    ```jsx
+    ...
+    <div className="order">
+        <p>
+            <span>Total</span>
+        </p>
+        <p>${sumTotal()}</p>
+    </div>
     ```

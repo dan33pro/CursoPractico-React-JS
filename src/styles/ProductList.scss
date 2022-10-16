@@ -1,7 +1,7 @@
 @use 'vars';
 
 .ProductList-container {
-    margin-top: 100px;
+    margin: 100px auto 0;
     display: grid;
     grid-template-columns: repeat(auto-fill, 240px);
     gap: 26px;
