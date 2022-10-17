@@ -26,6 +26,8 @@ Este es mi desarrollo del curso de React.js practico de Platzi, donde retomamos 
     6. [Completando el carrito de compras](#completando-el-carrito-de-compras)
     7. [Orden de compra](#orden-de-compra)
     8. [Calculando el precio total](#calculando-el-precio-total)
+    9. [Eliminando productos del carrito](#eliminando-productos-del-carrito)
+    10. [Optimización](#optimización)
 
 ## Configurando el entorno de desarrollo para React
 
@@ -1276,4 +1278,88 @@ a esta función
         </p>
         <p>${sumTotal()}</p>
     </div>
+    ```
+
+### Eliminando productos del carrito
+
+1. Para esto vamos a agregar una nueva función en nuestro `useInitialState`
+
+    ```js
+    ...
+    const removeFromCart = (indexValue) => {
+        setState({
+            ...state,
+            cart: state.cart.filter( (item, index) => index != indexValue ),
+        })
+    }
+
+    return {
+        state,
+        addToCart,
+        removeFromCart,
+    };
+    ```
+
+2. En nuestro `OrderItem` vamos a importar
+
+    ```jsx
+    import React, {useContext} from 'react';
+    import AppContext from '@context/AppContext';
+    ```
+
+3. Y agregamos la función de control y la constate del metodo
+que necesitamos del estado
+
+    ```jsx
+    const OrderItem = (props) => {
+        const { product, indexValue } = props;
+        const { removeFromCart } = useContext(AppContext);
+
+        const handleRemove = (index) => {
+            removeFromCart(index);
+        }
+        ...
+    ```
+
+4. Agregamos el evento en el elemento activador
+
+    ```jsx
+    <img src={iconClose} alt="close" className ="OrderItem-close"  onClick={() => handleRemove(indexValue)}/>
+    ```
+
+5. Hacemos los cambios de `props` en `MyOrder.jsx`
+
+    ```jsx
+    <div className="MyOrder-content">
+        {state.cart.map((product, index) => (
+            <OrderItem indexValue={index} product={product} key={`orderItem-${product.id}`} />
+        ))}
+    </div>
+    ```
+
+### Optimización
+
+1. Instalamos las dependecias de optimización
+
+    ```npm
+    npm install css-minimizer-webpack-plugin terser-webpack-plugin -D
+    ```
+
+2. Agregamos la configuración en nuestro archivo de configuració `webpack.config.js`.
+
+    ```js
+    const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+    const TerserWebpackPlugin = require('terser-webpack-plugin');
+    ```
+
+3. Agregamos la propiedad de `optization`
+
+    ```js
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new CssMinimizerPlugin(),
+            new TerserWebpackPlugin(),
+        ],
+    },
     ```
