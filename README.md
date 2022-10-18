@@ -28,6 +28,8 @@ Este es mi desarrollo del curso de React.js practico de Platzi, donde retomamos 
     8. [Calculando el precio total](#calculando-el-precio-total)
     9. [Eliminando productos del carrito](#eliminando-productos-del-carrito)
     10. [Optimización](#optimización)
+5. [Deploy](#deploy)
+    1. [Automatizando el despliegue con GitHub Actions](#automatizando-el-despliegue-con-github-actions)
 
 ## Configurando el entorno de desarrollo para React
 
@@ -1363,3 +1365,40 @@ que necesitamos del estado
         ],
     },
     ```
+
+## Deploy
+
+### Automatizando el despliegue con GitHub Actions
+
+1. En la zona de `market place` dentro de `GitHub` buscamos
+`deploy to github pages`.
+
+2. En nuestro repositorio creamos una carpeta `.github` con un directorio dentro `workflows` con un archivo `deploy.yml` dentro.
+
+3. Pegamos y modificamos el recurso script que encontramos en `deploy to github pages`
+
+    ```yml
+    name: Build and Deploy
+    on: [push]
+    permissions:
+    contents: write
+    jobs:
+    build-and-deploy:
+        concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout 🛎️
+            uses: actions/checkout@v3
+
+        - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
+            run: |
+            npm ci
+            npm run build
+
+        - name: Deploy 🚀
+            uses: JamesIves/github-pages-deploy-action@v4
+            with:
+            folder: dist # The folder the action should deploy.
+    ```
+
+4. Subimos cambios al repositorio remoto
