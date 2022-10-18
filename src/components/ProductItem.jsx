@@ -15,8 +15,8 @@ const ProductItem = ({product}) => {
   };
   
   return (
-    <div className ="ProductItem" onClick={() => handleToggleProductInfo(product)}>
-        <img src={product.images[0]} alt={product.title} />
+    <div className ="ProductItem">
+        <img src={product.images[0]} alt={product.title} onClick={() => handleToggleProductInfo(product)} />
         <div className ="ProductItem-info">
             <div>
                 <p>${product.price}</p>
