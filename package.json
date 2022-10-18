@@ -2,9 +2,12 @@
   "name": "023-cursopracticodereact--react-shop",
   "version": "1.0.0",
   "description": "react eshop",
+  "homepage": "https://dan33pro.github.io/CursoPractico-React-JS/",
   "main": "./src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -b master -d dist",
     "start": "webpack serve --open --config webpack.config.dev.js",
     "build": "webpack --config webpack.config.js",
     "dev": "webpack --config webpack.config.dev.js"
@@ -34,6 +37,7 @@
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
     "css-minimizer-webpack-plugin": "^4.2.2",
+    "gh-pages": "^4.0.0",
     "mini-css-extract-plugin": "^2.6.1",
     "sass": "^1.55.0",
     "sass-loader": "^13.1.0",
