@@ -22,7 +22,8 @@ const App = () => {
 
   return (
     <AppContext.Provider value={initialState}>
-      <BrowserRouter basename='/CursoPractico-React-JS'>
+      {/* <BrowserRouter basename='/CursoPractico-React-JS'> */}
+      <BrowserRouter>
         <Layout>
           <Routes>
             <Route exact path='/' element={<Home />} />

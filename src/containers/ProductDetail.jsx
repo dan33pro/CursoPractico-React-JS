@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import AppContext from '@context/AppContext';
 import ProductInfo from '@components/ProductInfo';
 import '@styles/ProductDetail.scss';
 import iconClose from '@icons/icon_close.png';
 
 const ProductDetail = () => {
+  const { state, removeFromActualProduct } = useContext(AppContext);
+  const payload = state.actualProduct;
+
+  const handleToggleProductDetail = () => {
+    removeFromActualProduct();
+  }
+
   return (
     <aside className ="ProductDetail">
-        <div className ="ProductDetail-close">
+        <div className ="ProductDetail-close" onClick={ () => handleToggleProductDetail()}>
             <img src={iconClose} alt="close" />
         </div>
-        <img src="https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="bike" />
+        {console.log(payload[1])}
+        <img src={payload[0] && payload[1].images[0]} alt={payload[1].title} />
         <ProductInfo />
     </aside>
   );

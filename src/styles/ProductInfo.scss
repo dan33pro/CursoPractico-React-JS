@@ -1,6 +1,7 @@
 @use 'vars';
 
 .ProductInfo {
+    width: 312px;
     margin: 24px 24px 0 24px;
 }
 .ProductInfo p:first-child {
@@ -21,12 +22,12 @@
     margin-bottom: 36px;
     margin-top: 0;
 }
-.primary-button {
+.ProductInfo .primary-button {
     background-color: var(--hospital-green);
     border-radius: 8px;
     border: none;
     color: var(--white);
-    width: 100%;
+    width: 312px;
     cursor: pointer;
     height: 50px;
     font-size: var(--md);
