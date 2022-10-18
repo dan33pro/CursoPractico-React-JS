@@ -79,10 +79,11 @@ module.exports = {
             ]
         })
     ],
-    Server: {
-        historyApiFallback: true,
+    devServer: {
         static: path.join(__dirname, 'dist'),
+        historyApiFallback: true,
         compress: true,
         port: 3005,
+        open: true,
     },
 }
