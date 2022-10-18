@@ -3,6 +3,7 @@
 .ProductList-container {
     margin: 100px auto 0;
     display: grid;
+    width: 90vw;
     grid-template-columns: repeat(auto-fill, 240px);
     gap: 26px;
     place-content: center;
