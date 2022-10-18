@@ -1402,3 +1402,20 @@ que necesitamos del estado
     ```
 
 4. Subimos cambios al repositorio remoto
+
+### Aclaraciones del Deploy
+
+Es necesesario añadir en el `package.json` 
+
+    ```json
+    "homepage": "https://dan33pro.github.io/CursoPractico-React-JS/",
+    ...
+    ```
+
+Y en `App.jsx`
+
+    ```jsx
+    <BrowserRouter basename='/CursoPractico-React-JS'>
+        ....
+    </BrowserRouter>
+    ```
